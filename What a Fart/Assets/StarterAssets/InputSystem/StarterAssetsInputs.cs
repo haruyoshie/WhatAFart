@@ -12,6 +12,7 @@ namespace StarterAssets
 		public Vector2 move;
 		public Vector2 look; 
 		public bool sprint;
+		public bool fartTest;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -22,7 +23,7 @@ namespace StarterAssets
 		
 		[HideInInspector]
 		public UnityEvent  openMenu;
-		[HideInInspector]
+
 		public UnityEvent  fart;
 
 #if ENABLE_INPUT_SYSTEM
@@ -43,14 +44,22 @@ namespace StarterAssets
 		{
 			SprintInput(value.isPressed);
 		}
+		
+		public void OnFart(InputValue value)
+		{
+			FartInput(value.isPressed);
+		}
+
 		public void OnOpenMenu(InputValue value)
 		{
 			OpenMenuCallback(value.isPressed);
+			Debug.Log("Open Menu");
 		}
 
 		public void OnFartPressed(InputValue value)
 		{
 			FartCallback(value.isPressed);
+			Debug.Log("Change state");
 		}
 #endif
 
@@ -68,6 +77,11 @@ namespace StarterAssets
 		public void SprintInput(bool newSprintState)
 		{
 			sprint = newSprintState;
+		}
+
+		public void FartInput(bool newFartState)
+		{
+			fartTest = newFartState;
 		}
 		public void OpenMenuCallback(bool newInteractState)
 		{

@@ -159,6 +159,7 @@ namespace StarterAssets
             // JumpAndGravity();
             GroundedCheck();
             Move();
+            Fart();
         }
 
         private void LateUpdate()
@@ -282,6 +283,11 @@ namespace StarterAssets
                     _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
                 }
             }
+        }
+
+        private void Fart()
+        {
+            Debug.Log(_input.fartTest ? "I pressed Fart" : "I don't press Fart");
         }
 
         // private void JumpAndGravity()
