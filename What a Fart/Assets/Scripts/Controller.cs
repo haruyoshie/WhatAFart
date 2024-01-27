@@ -22,7 +22,6 @@ public class Controller : MonoBehaviour
         t = !t;
         if (t)
         {
-            Debug.Log("minimap activate");
             uiMenu.SetActive(false);
             player.GetComponent<ThirdPersonController>()._canMove = false;
             Menu.SetActive(true);
@@ -50,8 +49,12 @@ public class Controller : MonoBehaviour
     {
         _pedometer += valueFood;
         _SliderPedometer.value = _pedometer;
-
     }
-    
+    public void DeleteValuesToPedometer(float valueFood)
+    {
+        if(_SliderPedometer.value <10)return;
+        _pedometer -= Mathf.Abs(valueFood);
+        _SliderPedometer.value = _pedometer;
+    }
     
 }

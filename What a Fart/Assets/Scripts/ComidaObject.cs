@@ -2,22 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ComidaObject : MonoBehaviour
 {
-    public float _potenciaPedo;
-    public Controller _Controller;
+    public float potenciaPedo;
+    public Controller controller;
+    public bool goodFood;
 
     private void Start()
     {
-        _Controller = FindObjectOfType<Controller>();
+        controller = FindObjectOfType<Controller>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Equals("Player"))
         {
-            _Controller.AddValuesToPedometer(_potenciaPedo);
+            if (goodFood)
+            {
+                controller.DeleteValuesToPedometer(potenciaPedo);
+            }
+            else
+            {
+                controller.AddValuesToPedometer(potenciaPedo); 
+            } 
         }
     }
 
