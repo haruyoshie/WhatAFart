@@ -15,8 +15,22 @@ public class Controller : MonoBehaviour
     void Start()
     {
         player.GetComponent<StarterAssetsInputs>().openMenu.AddListener(OpenMenu);
+        player.GetComponent<StarterAssetsInputs>().fart.AddListener(Fart);
     }
     
+    public void Fart() 
+    {
+        t = !t;
+        if (t)
+        {
+            Debug.Log("Estoy en Fart");    
+        }
+        else
+        {
+            Debug.Log("No Estoy en Fart");    
+        }
+    }
+
     public void OpenMenu()
     {
         t = !t;
