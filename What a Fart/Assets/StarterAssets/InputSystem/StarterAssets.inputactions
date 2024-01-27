@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "fart",
+                    "name": "Fart",
                     "type": "Button",
                     "id": "be9f6a1e-f426-4d46-b5f4-2555076185a2",
                     "expectedControlType": "Button",
@@ -221,10 +221,10 @@
                     "name": "",
                     "id": "3d48757c-2451-4f2a-811b-04a58ee67ca4",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "fart",
+                    "action": "Fart",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
