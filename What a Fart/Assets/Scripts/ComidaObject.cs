@@ -9,7 +9,7 @@ public class ComidaObject : MonoBehaviour
     public float potenciaPedo;
     public Controller controller;
     public bool goodFood;
-
+    public AudioSource foodEating;
     private void Start()
     {
         controller = FindObjectOfType<Controller>();
@@ -17,6 +17,7 @@ public class ComidaObject : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        this.GetComponent<MeshRenderer>().enabled = false;
         if (other.tag.Equals("Player"))
         {
             if (goodFood)
@@ -25,16 +26,18 @@ public class ComidaObject : MonoBehaviour
             }
             else
             {
-                controller.AddValuesToPedometer(potenciaPedo); 
-            } 
+                controller.AddValuesToPedometer(potenciaPedo);
+            }
+            StartCoroutine(EatingFood());
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    IEnumerator EatingFood()
     {
-        if (other.tag.Equals("Player"))
-        {
-            Destroy(gameObject);
-        }
+        foodEating.Play();
+        GetComponent<Collider>().enabled = false;
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
+    
 }
