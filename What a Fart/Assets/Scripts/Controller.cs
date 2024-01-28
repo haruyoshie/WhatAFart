@@ -50,23 +50,27 @@ public class Controller : MonoBehaviour
     }
     public void AddValuesToPedometer(float valueFood)
     {
+        _pedometer += valueFood;
+        _SliderPedometer.value = _pedometer;
+        CalculateVelocityToFlart();
+
         if(_SliderPedometer.value >= 100)
         {
             EndGame();
             return;
         }
-        _pedometer += valueFood;
-        _SliderPedometer.value = _pedometer;
-                
-        CalculateVelocityToFlart();
     }
     public void DeleteValuesToPedometer(float valueFood)
     {
         if(_SliderPedometer.value <10)return;
         _pedometer -= Mathf.Abs(valueFood);
         _SliderPedometer.value = _pedometer;
-        
         CalculateVelocityToFlart();
+        if(_SliderPedometer.value >= 100)
+        {
+            EndGame();
+            return;
+        }
     }
 
     public void Fart()
@@ -108,6 +112,8 @@ public class Controller : MonoBehaviour
     public void EndGame()
     {
         player.GetComponent<ThirdPersonController>()._canMove = false;
+        InteractionManager.Instance.SetInteractState(InteractionState.StillMouseInteracting);
+        // player.GetComponent<ThirdPersonController>()._cui = false;
         gameOverPanel.SetActive(true);
     }
 }
