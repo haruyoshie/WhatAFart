@@ -289,11 +289,14 @@ namespace StarterAssets
 
         private void Fart()
         {
-            Debug.Log(_input.fartTest ? "I pressed Fart" : "I don't press Fart");
-            if(_input.fartTest)
+            if(_input.fart && playerController._SliderPedometer.value > 0)
             {
                 Debug.Log("I execute Fart");
                 playerController.Fart();
+            }
+            else
+            {
+                _input.fart = false;
             }
         }
 

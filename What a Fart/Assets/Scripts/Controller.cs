@@ -78,7 +78,8 @@ public class Controller : MonoBehaviour
         if(_SliderPedometer.value != 0)
         { 
             fartParticles.gameObject.SetActive(true);
-            fartParticles.gameObject.transform.position = player.transform.position;
+            Vector3 posPlayer = player.transform.position;
+            fartParticles.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z) ;
             fartParticles.gameObject.transform.localScale = new Vector3(_SliderPedometer.value/150, _SliderPedometer.value/150, _SliderPedometer.value/150);
             fartParticles.Play();
 
@@ -86,6 +87,10 @@ public class Controller : MonoBehaviour
             audioSource.clip = audioClips[indexAudioSourcefart];
             audioSource.Play();
             DeleteValuesToPedometer(_SliderPedometer.value);
+        }
+        else
+        {
+            return;
         }
     }
 
