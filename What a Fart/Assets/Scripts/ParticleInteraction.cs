@@ -6,6 +6,7 @@ public class ParticleInteraction : MonoBehaviour
 {
     public ParticleSystem partSystem;
     public List<ParticleCollisionEvent> collisionEvents;
+    public Controller playerController;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ void OnParticleCollision(GameObject other)
     if (other.tag == "Customer" && other.GetComponent<Customer>()._isFarted == false)
     {
         other.GetComponent<Customer>()._isFarted = true;
+        playerController.numberOfClientsOut +=1;
         partSystem.GetCollisionEvents(other, collisionEvents);
         ParticleSystem particlesBadSmell = other.transform.GetChild(0).GetComponent<ParticleSystem>();
         particlesBadSmell.Play();
