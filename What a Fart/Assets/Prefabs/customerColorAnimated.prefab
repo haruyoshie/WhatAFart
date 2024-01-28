@@ -89,7 +89,7 @@ Animator:
   m_GameObject: {fileID: 1489159541043246484}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6481f71eb7e831345b767ac6102ac121, type: 2}
+  m_Controller: {fileID: 9100000, guid: 389ba0ecda8463b46b96807302b6fadc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isFarted: 0
+  customerAnimator: {fileID: 1774824341591325044}
 --- !u!1001 &2772784942537806609
 PrefabInstance:
   m_ObjectHideFlags: 0

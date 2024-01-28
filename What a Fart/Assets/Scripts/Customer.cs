@@ -1,20 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class Customer : MonoBehaviour
 {
     public bool _isFarted = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Animator customerAnimator;
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(_isFarted == true)
+        {
+            Debug.Log("Cambio de animación");
+            // customerAnimator.SetBool("isSmellingBad", _isFarted);
+        }
     }
 }
