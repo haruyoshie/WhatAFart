@@ -12,7 +12,7 @@ namespace StarterAssets
 		public Vector2 move;
 		public Vector2 look; 
 		public bool sprint;
-		public bool fartTest;
+		public bool fart;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -73,7 +73,7 @@ namespace StarterAssets
 
 		public void FartInput(bool newFartState)
 		{
-			fartTest = newFartState;
+			fart = newFartState;
 		}
 		public void OpenMenuCallback(bool newInteractState)
 		{
