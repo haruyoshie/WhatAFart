@@ -25,7 +25,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         player.GetComponent<StarterAssetsInputs>().openMenu.AddListener(OpenMenu);
-        InvokeRepeating("RandomFood", 10,30);
+        InvokeRepeating("RandomFood", 2, 10);
     }
     public void OpenMenu()
     {

@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9a43a63801a3a4c80b4a3edf6a41c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potenciaPedo: 5
+  potenciaPedo: 30
   controller: {fileID: 0}
   goodFood: 0
   foodEating: {fileID: 613165538065713415}
