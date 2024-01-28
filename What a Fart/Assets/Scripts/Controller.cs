@@ -121,6 +121,7 @@ public class Controller : MonoBehaviour
             if (_SliderPedometer.value >= 75)
             {
                 StartCoroutine("EndTheGame");
+                player.GetComponent<StarterAssetsInputs>().fart = false;
                 DeleteValuesToPedometer(_SliderPedometer.value);
                 return;
             }
@@ -172,22 +173,30 @@ public class Controller : MonoBehaviour
     }
     public void CalculateScore()
     {
+        string nameScene = SceneManager.GetActiveScene().name;
         passTheLevelPanel.SetActive(true);
         if(numberOfClientsOut == 0) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            passTheLevelPanel.gameObject.transform.GetChild(5).gameObject.SetActive(false);
+            passTheLevelPanel.gameObject.transform.GetChild(7).gameObject.SetActive(true);
+            
+            PlayerPrefs.SetFloat(nameScene,0);
         } 
         else if(numberOfClientsOut <= 2 && numberOfClientsOut > 0) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            PlayerPrefs.SetFloat(nameScene,1);
         } 
         else if(numberOfClientsOut <= 4 && numberOfClientsOut > 2) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(2).gameObject.SetActive(true);
+            PlayerPrefs.SetFloat(nameScene,2);
         }
         else
         {
             passTheLevelPanel.gameObject.transform.GetChild(3).gameObject.SetActive(true);
+            PlayerPrefs.SetFloat(nameScene,3);
         }
     }
     public void EndGame()

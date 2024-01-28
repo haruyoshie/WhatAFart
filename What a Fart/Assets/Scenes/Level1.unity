@@ -481,7 +481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &68408880
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1903,6 +1903,7 @@ MonoBehaviour:
   potenciaPedo: 50
   controller: {fileID: 0}
   goodFood: 0
+  foodEating: {fileID: 0}
 --- !u!114 &292120798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3643,6 +3644,7 @@ MonoBehaviour:
   potenciaPedo: 50
   controller: {fileID: 0}
   goodFood: 0
+  foodEating: {fileID: 0}
 --- !u!4 &984557069 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2070925441746177912, guid: a1a802ecaf6775746bb2a929fb554ad8,
@@ -4837,6 +4839,7 @@ MonoBehaviour:
   potenciaPedo: 50
   controller: {fileID: 0}
   goodFood: 0
+  foodEating: {fileID: 0}
 --- !u!114 &1506726128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5734,6 +5737,7 @@ MonoBehaviour:
   player: {fileID: 1169345134}
   gameOverPanel: {fileID: 2037551016}
   passTheLevelPanel: {fileID: 68408879}
+  gameOverForCustomer: {fileID: 0}
   fartParticles: {fileID: 1906822658}
   poopParticles: {fileID: 1451413916}
   fartParticlesVFX: {fileID: 1268620329}
@@ -5745,6 +5749,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 209dba50a598c354ca1b22ac30d6d2b3, type: 3}
   - {fileID: 8300000, guid: a24cc7f8dd7272d4186b55b12a91c8d1, type: 3}
   audioSource: {fileID: 1206510616}
+  CamaraAnim: {fileID: 0}
+  food: []
+  posFood: []
 --- !u!1 &1761478223
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +6017,7 @@ MonoBehaviour:
   potenciaPedo: -20
   controller: {fileID: 0}
   goodFood: 1
+  foodEating: {fileID: 0}
 --- !u!114 &1821844002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11103,6 +11111,7 @@ MonoBehaviour:
   potenciaPedo: -20
   controller: {fileID: 0}
   goodFood: 1
+  foodEating: {fileID: 0}
 --- !u!114 &1990848024
 MonoBehaviour:
   m_ObjectHideFlags: 0
