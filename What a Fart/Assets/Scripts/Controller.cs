@@ -11,7 +11,7 @@ public class Controller : MonoBehaviour
     public float _pedometer;
     public Slider _SliderPedometer;
     public GameObject Menu,uiMenu,player, gameOverPanel;
-    public ParticleSystem fartParticles;
+    public ParticleSystem fartParticles, poopParticles;
     public AudioClip[] audioClips;
     public AudioSource audioSource;
     private bool t;
@@ -56,7 +56,7 @@ public class Controller : MonoBehaviour
 
         if(_SliderPedometer.value >= 100)
         {
-            EndGame();
+            StartCoroutine(EndTheGame());
             return;
         }
     }
@@ -68,9 +68,18 @@ public class Controller : MonoBehaviour
         CalculateVelocityToFlart();
         if(_SliderPedometer.value >= 100)
         {
-            EndGame();
+            StartCoroutine(EndTheGame());
             return;
         }
+    }
+
+    IEnumerator EndTheGame()
+    {
+        poopParticles.gameObject.SetActive(true);
+        Vector3 posPlayer = player.transform.position;
+        poopParticles.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
+        yield return new WaitForSeconds(3f);
+        EndGame();
     }
 
     public void Fart()
