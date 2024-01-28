@@ -24,6 +24,11 @@ public class ChangeScene : MonoBehaviour
     Application.Quit();
   }
 
+  public void OpenUrl(string urlString)
+  {
+      Application.OpenURL(urlString);
+  }
+
   public void selectRandom()
   {
       int fart = Random.Range(0, audioClips.Length);

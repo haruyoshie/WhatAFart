@@ -178,8 +178,8 @@ public class Controller : MonoBehaviour
         if(numberOfClientsOut == 0) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            passTheLevelPanel.gameObject.transform.GetChild(5).gameObject.SetActive(false);
-            passTheLevelPanel.gameObject.transform.GetChild(7).gameObject.SetActive(true);
+            passTheLevelPanel.gameObject.transform.GetChild(4).gameObject.SetActive(false);
+            passTheLevelPanel.gameObject.transform.GetChild(6).gameObject.SetActive(true);
             
             PlayerPrefs.SetFloat(nameScene,0);
         } 
@@ -206,7 +206,6 @@ public class Controller : MonoBehaviour
         // player.GetComponent<ThirdPersonController>()._cui = false;
         gameOverPanel.SetActive(true);
     }
-    
 
     public void RandomFood()
     {

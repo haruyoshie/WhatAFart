@@ -293,6 +293,7 @@ namespace StarterAssets
             {
                 Debug.Log("I execute Fart");
                 playerController.Fart();
+                _input.fart = false;
             }
             else
             {
