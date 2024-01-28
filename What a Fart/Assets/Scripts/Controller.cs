@@ -10,26 +10,15 @@ public class Controller : MonoBehaviour
 {
     public float _pedometer;
     public Slider _SliderPedometer;
-    public GameObject Menu,uiMenu,player;
+    public GameObject Menu,uiMenu,player, gameOverPanel;
+    public ParticleSystem fartParticles;
+    public AudioClip[] audioClips;
+    public AudioSource audioSource;
     private bool t;
     void Start()
     {
         player.GetComponent<StarterAssetsInputs>().openMenu.AddListener(OpenMenu);
-        player.GetComponent<StarterAssetsInputs>().fart.AddListener(Fart);
-    }
-    
-    public void Fart() 
-    {
-        t = !t;
-        if (t)
-        {
-            Debug.Log("Estoy en Fart");    
         }
-        else
-        {
-            Debug.Log("No Estoy en Fart");    
-        }
-    }
 
     public void OpenMenu()
     {
@@ -61,14 +50,64 @@ public class Controller : MonoBehaviour
     }
     public void AddValuesToPedometer(float valueFood)
     {
+        if(_SliderPedometer.value >= 100)
+        {
+            EndGame();
+            return;
+        }
         _pedometer += valueFood;
         _SliderPedometer.value = _pedometer;
+                
+        CalculateVelocityToFlart();
     }
     public void DeleteValuesToPedometer(float valueFood)
     {
         if(_SliderPedometer.value <10)return;
         _pedometer -= Mathf.Abs(valueFood);
         _SliderPedometer.value = _pedometer;
+        
+        CalculateVelocityToFlart();
     }
-    
+
+    public void Fart()
+    {
+        if(_SliderPedometer.value != 0)
+        { 
+            fartParticles.gameObject.SetActive(true);
+            fartParticles.gameObject.transform.position = player.transform.position;
+            fartParticles.gameObject.transform.localScale = new Vector3(_SliderPedometer.value/150, _SliderPedometer.value/150, _SliderPedometer.value/150);
+            fartParticles.Play();
+
+            int indexAudioSourcefart = Random.Range(0, audioClips.Length);
+            audioSource.clip = audioClips[indexAudioSourcefart];
+            audioSource.Play();
+            DeleteValuesToPedometer(_SliderPedometer.value);
+        }
+    }
+
+    public void CalculateVelocityToFlart()
+    {
+        if (_SliderPedometer.value <= 100 && _SliderPedometer.value > 75)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 5;
+        }
+        else if (_SliderPedometer.value <= 75 && _SliderPedometer.value > 50)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 4;
+        }
+        else if (_SliderPedometer.value <= 50 && _SliderPedometer.value > 25)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 3;
+        }
+        else 
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 2;
+        }
+    }
+
+    public void EndGame()
+    {
+        player.GetComponent<ThirdPersonController>()._canMove = false;
+        gameOverPanel.SetActive(true);
+    }
 }

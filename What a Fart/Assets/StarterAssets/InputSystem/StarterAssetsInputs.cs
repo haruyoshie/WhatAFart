@@ -24,8 +24,6 @@ namespace StarterAssets
 		[HideInInspector]
 		public UnityEvent  openMenu;
 
-		public UnityEvent  fart;
-
 #if ENABLE_INPUT_SYSTEM
 		public void OnMove(InputValue value)
 		{
@@ -55,12 +53,6 @@ namespace StarterAssets
 			OpenMenuCallback(value.isPressed);
 			Debug.Log("Open Menu");
 		}
-
-		public void OnFartPressed(InputValue value)
-		{
-			FartCallback(value.isPressed);
-			Debug.Log("Change state");
-		}
 #endif
 
 
@@ -89,14 +81,6 @@ namespace StarterAssets
 			if (!newInteractState)
 			{
 				openMenu.Invoke();
-			}
-		}
-
-		public void FartCallback(bool newFartState)
-		{
-			if (!newFartState)
-			{
-				fart.Invoke();
 			}
 		}
 

@@ -6,11 +6,16 @@ using UnityEngine.Serialization;
 
 public class ChangeScene : MonoBehaviour
 {
-   public AudioClip[] audioClips;
-   public AudioSource audioSource;
+  public AudioClip[] audioClips;
+  public AudioSource audioSource;
   public void changeScene(string sceneName)
   {
     SceneManager.LoadScene(sceneName);
+  }
+
+  public void QuitApplication()
+  {
+    Application.Quit();
   }
 
   public void selectRandom()

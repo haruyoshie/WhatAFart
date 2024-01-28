@@ -75,6 +75,9 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Tooltip("Player Controller script")]
+        [SerializeField]
+        private Controller playerController;
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -121,7 +124,6 @@ namespace StarterAssets
 #endif
             }
         }
-
 
         private void Awake()
         {
@@ -288,6 +290,11 @@ namespace StarterAssets
         private void Fart()
         {
             Debug.Log(_input.fartTest ? "I pressed Fart" : "I don't press Fart");
+            if(_input.fartTest)
+            {
+                Debug.Log("I execute Fart");
+                playerController.Fart();
+            }
         }
 
         // private void JumpAndGravity()
