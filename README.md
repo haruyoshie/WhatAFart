@@ -17,7 +17,7 @@ Developed with Unity for PC, What A Fart! is designed to offer laughs and challe
 - **Audio:** Unique sound effects made using only mouth sounds, emphasizing the humor in farts.
 
 ## Credits
-- **Haruyoshie:** [Unity Developer](https://www.youtube.com/watch?v=PyyoOLAjhYI)
+- **Haruyoshie:** [Unity Developer](https://www.youtube.com/channel/UCayLPa_Cm27ZqOzIFnqvp_w)
 - **Felipe:** [Unity Developer](https://www.linkedin.com/in/felipearistizabal/)
 - **Jose** [2D Illustrator](https://www.behance.net/JoseSinTilde)
 - **Edwuin** [3D Illustrator](https://www.linkedin.com/in/edwuin-teran-22608353/)
