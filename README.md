@@ -20,5 +20,5 @@ Developed with Unity for PC, What A Fart! is designed to offer laughs and challe
 - **Haruyoshie:** [Unity Developer](https://www.youtube.com/watch?v=PyyoOLAjhYI)
 - **Felipe:** [Unity Developer](https://www.linkedin.com/in/felipearistizabal/)
 - **Jose** [2D Illustrator](https://www.behance.net/JoseSinTilde)
-- **Edwuin** [3D Illustrator](https://www.behance.net/JoseSinTilde)
+- **Edwuin** [3D Illustrator](https://www.linkedin.com/in/edwuin-teran-22608353/)
 - **Luis** [Sound](https://www.linkedin.com/in/luis-miguel-cortes-martinez/)
