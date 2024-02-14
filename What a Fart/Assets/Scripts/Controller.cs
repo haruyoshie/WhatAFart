@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using QuestSystem;
 using StarterAssets;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -9,24 +11,44 @@ using Unity.VisualScripting;
 
 public class Controller : MonoBehaviour
 {
+    #region UI Components and others
+    
     public float _pedometer;
     public Slider _SliderPedometer;
+    [HideInInspector]
     public GameObject Menu,uiMenu,player, gameOverPanel, passTheLevelPanel,gameOverForCustomer;
+    [HideInInspector]
     public ParticleSystem fartParticles, poopParticles, fartParticlesVFX;
     public int numberOfClientsOut;
+    [HideInInspector]
     public AudioClip[] audioClips;
+    [HideInInspector]
     public AudioSource audioSource;
+    [HideInInspector]
     public GameObject CamaraAnim;
     private bool t;
+    [HideInInspector]
     public GameObject[] food;
+    [HideInInspector]
     public GameObject[] posFood;
+    public TextMeshProUGUI currentPoints;
+    public GameObject taskWindow;
+    public Quest quest;
+
+    [SerializeField] private float timePerLevel;
     
 
+    #endregion
+   
+    
     void Start()
     {
         player.GetComponent<StarterAssetsInputs>().openMenu.AddListener(OpenMenu);
-        InvokeRepeating("RandomFood", 2, 10);
+       // InvokeRepeating("RandomFood", 2, 5);
     }
+
+    #region Menu interactions
+
     public void OpenMenu()
     {
         t = !t;
@@ -50,30 +72,24 @@ public class Controller : MonoBehaviour
         player.GetComponent<ThirdPersonController>()._canMove = true;
         InteractionManager.Instance.SetInteractState(InteractionState.Free);
     }
-    public void ChangeScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
+
+    #endregion
+    #region Methods for slider pedometter
+
     public void AddValuesToPedometer(float valueFood)
     {
         _pedometer += valueFood;
         _SliderPedometer.value = _pedometer;
         CalculateVelocityToFlart();
 
-        if(_SliderPedometer.value >= 100)
+        if(_SliderPedometer.value >= 75)
         {
-            InvokeRepeating("loseParticle", 0.1f,0.1f);
+            InvokeRepeating("LoseParticle", 0.1f,0.1f);
         }
         else
         {
-            CancelInvoke("loseParticle");
+            CancelInvoke("LoseParticle");
         }
-    }
-    public void loseParticle()
-    {
-        poopParticles.gameObject.SetActive(true);
-        Vector3 posPlayer = player.transform.position;
-        poopParticles.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
     }
     public void DeleteValuesToPedometer(float valueFood)
     {
@@ -84,55 +100,19 @@ public class Controller : MonoBehaviour
         if(_SliderPedometer.value < 75)
         {
             poopParticles.gameObject.SetActive(false);
-            CancelInvoke("loseParticle");
+            CancelInvoke("LoseParticle");
         }
     }
-    IEnumerator EndTheGame()
+
+    #endregion
+    #region Methods for lose the game
+
+    public void LoseParticle()
     {
-        CamaraAnim.SetActive(true);
-        poopParticles.gameObject.SetActive(true);
+        GameObject o;
+        (o = poopParticles.gameObject).SetActive(true);
         Vector3 posPlayer = player.transform.position;
-        poopParticles.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
-        yield return new WaitForSeconds(2.5f);
-        EndGame();
-    }
-    public void Fart()
-    {
-        if(_SliderPedometer.value != 0)
-        { 
-            fartParticles.gameObject.SetActive(true);
-            Vector3 posPlayer = player.transform.position;
-            fartParticles.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
-            fartParticles.gameObject.transform.localScale = new Vector3(_SliderPedometer.value/150, _SliderPedometer.value/150, _SliderPedometer.value/150);
-            fartParticles.Play();
-            
-            fartParticlesVFX.gameObject.SetActive(true);
-            fartParticlesVFX.gameObject.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
-            fartParticlesVFX.gameObject.transform.localScale = new Vector3(_SliderPedometer.value/50, _SliderPedometer.value/50, _SliderPedometer.value/50);
-            fartParticlesVFX.Play();
-
-            int indexAudioSourcefart = Random.Range(0, audioClips.Length);
-            audioSource.clip = audioClips[indexAudioSourcefart];
-            audioSource.Play();
-            if (player.GetComponent<ThirdPersonController>().customerClose)
-            {
-                LoseForCustomer();
-            }
-            if (_SliderPedometer.value >= 75)
-            {
-                StartCoroutine("EndTheGame");
-                player.GetComponent<StarterAssetsInputs>().fart = false;
-                DeleteValuesToPedometer(_SliderPedometer.value);
-                return;
-            }
-            DeleteValuesToPedometer(_SliderPedometer.value);
-
-            StartCoroutine(VerifyThePassLevel());
-        }
-        else
-        {
-            return;
-        }
+        o.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
     }
     public void LoseForCustomer()
     {
@@ -140,36 +120,31 @@ public class Controller : MonoBehaviour
         InteractionManager.Instance.SetInteractState(InteractionState.StillMouseInteracting);
         gameOverForCustomer.SetActive(true);
     }
-    IEnumerator VerifyThePassLevel()
+
+    public void LoseForTime()
     {
-        Debug.Log("I'm verifying to pass the level");
-        player.GetComponent<ThirdPersonController>().MoveSpeed = 0;
-        CamaraAnim.SetActive(true);
-        yield return new WaitForSeconds(2f); 
-        player.GetComponent<ThirdPersonController>()._canMove = false;
-        
-        yield return new WaitForSeconds(5f);
-        InteractionManager.Instance.SetInteractState(InteractionState.StillMouseInteracting);
-        CalculateScore();
+        EndGame();
     }
-    public void CalculateVelocityToFlart()
+
+    #endregion
+    #region Methods to End the game and calculate the score
+
+    IEnumerator EndTheGame()
     {
-        if (_SliderPedometer.value <= 100 && _SliderPedometer.value > 75)
-        {
-            player.GetComponent<ThirdPersonController>().MoveSpeed = 5;
-        }
-        else if (_SliderPedometer.value <= 75 && _SliderPedometer.value > 50)
-        {
-            player.GetComponent<ThirdPersonController>().MoveSpeed = 4;
-        }
-        else if (_SliderPedometer.value <= 50 && _SliderPedometer.value > 25)
-        {
-            player.GetComponent<ThirdPersonController>().MoveSpeed = 3;
-        }
-        else 
-        {
-            player.GetComponent<ThirdPersonController>().MoveSpeed = 2;
-        }
+        CamaraAnim.SetActive(true);
+        GameObject o;
+        (o = poopParticles.gameObject).SetActive(true);
+        Vector3 posPlayer = player.transform.position;
+        o.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
+        yield return new WaitForSeconds(2.5f);
+        EndGame();
+    }
+    public void EndGame()
+    {
+        player.GetComponent<ThirdPersonController>()._canMove = false;
+        InteractionManager.Instance.SetInteractState(InteractionState.StillMouseInteracting);
+        // player.GetComponent<ThirdPersonController>()._cui = false;
+        gameOverPanel.SetActive(true);
     }
     public void CalculateScore()
     {
@@ -199,14 +174,121 @@ public class Controller : MonoBehaviour
             PlayerPrefs.SetFloat(nameScene,3);
         }
     }
-    public void EndGame()
+    public void CalculateVelocityToFlart()
     {
+        if (_SliderPedometer.value <= 100 && _SliderPedometer.value > 75)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 5;
+        }
+        else if (_SliderPedometer.value <= 75 && _SliderPedometer.value > 50)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 4;
+        }
+        else if (_SliderPedometer.value <= 50 && _SliderPedometer.value > 25)
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 3;
+        }
+        else 
+        {
+            player.GetComponent<ThirdPersonController>().MoveSpeed = 2;
+        }
+    }
+    IEnumerator VerifyThePassLevel()
+    {
+        Debug.Log("I'm verifying to pass the level");
+        player.GetComponent<ThirdPersonController>().MoveSpeed = 0;
+        CamaraAnim.SetActive(true);
+        yield return new WaitForSeconds(2f); 
         player.GetComponent<ThirdPersonController>()._canMove = false;
+        
+        yield return new WaitForSeconds(5f);
         InteractionManager.Instance.SetInteractState(InteractionState.StillMouseInteracting);
-        // player.GetComponent<ThirdPersonController>()._cui = false;
-        gameOverPanel.SetActive(true);
+        CalculateScore();
     }
 
+    #endregion
+
+    #region Methods to use in missions
+    public void GetObjectByClient()
+    {
+        if (quest.isActive)
+        {
+            quest.goal.CustomerAttended();
+            currentPoints.text = quest.goal.currentAmount.ToString();
+            if (quest.goal.IsReached())
+            {
+                taskWindow.SetActive(false);
+                currentPoints.text = "0";
+                AddValuesToPedometer(quest.fartReward);
+                FindObjectOfType<TimerLevel>().StopTimer();
+                quest.Complete();
+            } 
+        }
+    }
+    public void TaskByManager()
+    {
+        if (quest.isActive)
+        {
+            quest.goal.ItemCollected();
+            currentPoints.text = quest.goal.currentAmount.ToString();
+            if (quest.goal.IsReached())
+            {
+                taskWindow.SetActive(false);
+                currentPoints.text = "0";
+                AddValuesToPedometer(quest.fartReward);
+                FindObjectOfType<TimerLevel>().StopTimer();
+                quest.Complete();
+            } 
+        }
+    }
+
+    #endregion
+    
+    
+    public void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+    public void Fart()
+    {
+        if(_SliderPedometer.value != 0)
+        {
+            GameObject o;
+            (o = fartParticles.gameObject).SetActive(true);
+            Vector3 posPlayer = player.transform.position;
+            o.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
+            o.transform.localScale = new Vector3(_SliderPedometer.value/150, _SliderPedometer.value/150, _SliderPedometer.value/150);
+            fartParticles.Play();
+
+            GameObject gameObject1;
+            (gameObject1 = fartParticlesVFX.gameObject).SetActive(true);
+            gameObject1.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
+            gameObject1.transform.localScale = new Vector3(_SliderPedometer.value/50, _SliderPedometer.value/50, _SliderPedometer.value/50);
+            fartParticlesVFX.Play();
+
+            int indexAudioSourcefart = Random.Range(0, audioClips.Length);
+            audioSource.clip = audioClips[indexAudioSourcefart];
+            audioSource.Play();
+            if (player.GetComponent<ThirdPersonController>().customerClose)
+            {
+                LoseForCustomer();
+            }
+            if (_SliderPedometer.value >= 75)
+            {
+                StartCoroutine("EndTheGame");
+                player.GetComponent<StarterAssetsInputs>().fart = false;
+                DeleteValuesToPedometer(_SliderPedometer.value);
+                return;
+            }
+            DeleteValuesToPedometer(_SliderPedometer.value);
+
+            StartCoroutine(VerifyThePassLevel());
+        }
+        else
+        {
+            return;
+        }
+    }
     public void RandomFood()
     {
         int randomFood = Random.Range(0, food.Length);
@@ -214,4 +296,7 @@ public class Controller : MonoBehaviour
         GameObject foodInstance = Instantiate(food[randomFood]);
         foodInstance.transform.position = posFood[randomPosFood].transform.position;
     }
+    
+
+    
 }
