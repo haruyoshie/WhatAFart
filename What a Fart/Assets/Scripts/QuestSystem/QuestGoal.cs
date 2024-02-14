@@ -23,8 +23,6 @@ namespace QuestSystem
             if((goalType == GoalType.Gathering))
                 currentAmount++;
         }
-
-       
     }
     
     public enum GoalType

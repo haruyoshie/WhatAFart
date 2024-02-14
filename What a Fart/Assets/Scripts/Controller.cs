@@ -20,6 +20,9 @@ public class Controller : MonoBehaviour
     [HideInInspector]
     public ParticleSystem fartParticles, poopParticles, fartParticlesVFX;
     public int numberOfClientsOut;
+    private int numberOfPoints;
+    private GameObject[] clientsGameObject;
+    private int numberOfClients;
     [HideInInspector]
     public AudioClip[] audioClips;
     [HideInInspector]
@@ -36,14 +39,19 @@ public class Controller : MonoBehaviour
     public Quest quest;
 
     [SerializeField] private float timePerLevel;
-    
 
     #endregion
    
-    
     void Start()
     {
         player.GetComponent<StarterAssetsInputs>().openMenu.AddListener(OpenMenu);
+        clientsGameObject = GameObject.FindGameObjectsWithTag("Customer");
+        if (clientsGameObject != null)
+        {
+            foreach (GameObject client in clientsGameObject) {
+                numberOfClients += 1;
+            }
+        }
        // InvokeRepeating("RandomFood", 2, 5);
     }
 
@@ -93,7 +101,7 @@ public class Controller : MonoBehaviour
     }
     public void DeleteValuesToPedometer(float valueFood)
     {
-        if(_SliderPedometer.value <10)return;
+        if(_SliderPedometer.value < 10)return;
         _pedometer -= Mathf.Abs(valueFood);
         _SliderPedometer.value = _pedometer;
         CalculateVelocityToFlart();
@@ -136,9 +144,11 @@ public class Controller : MonoBehaviour
         (o = poopParticles.gameObject).SetActive(true);
         Vector3 posPlayer = player.transform.position;
         o.transform.position = new Vector3(posPlayer.x, posPlayer.y + 1, posPlayer.z);
+        Debug.Log("Perdí por exceso de pedos");
         yield return new WaitForSeconds(2.5f);
         EndGame();
     }
+
     public void EndGame()
     {
         player.GetComponent<ThirdPersonController>()._canMove = false;
@@ -146,11 +156,12 @@ public class Controller : MonoBehaviour
         // player.GetComponent<ThirdPersonController>()._cui = false;
         gameOverPanel.SetActive(true);
     }
+
     public void CalculateScore()
     {
         string nameScene = SceneManager.GetActiveScene().name;
         passTheLevelPanel.SetActive(true);
-        if(numberOfClientsOut == 0) 
+        if(numberOfPoints == 0) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(0).gameObject.SetActive(true);
             passTheLevelPanel.gameObject.transform.GetChild(4).gameObject.SetActive(false);
@@ -158,17 +169,17 @@ public class Controller : MonoBehaviour
             
             PlayerPrefs.SetFloat(nameScene,0);
         } 
-        else if(numberOfClientsOut <= 2 && numberOfClientsOut > 0) 
+        else if(numberOfPoints <= Mathf.RoundToInt(numberOfClients/3) + 2 && numberOfPoints > 0) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(1).gameObject.SetActive(true);
             PlayerPrefs.SetFloat(nameScene,1);
         } 
-        else if(numberOfClientsOut <= 4 && numberOfClientsOut > 2) 
+        else if(numberOfPoints <= Mathf.RoundToInt(numberOfClients/2) + 4 && numberOfPoints > Mathf.RoundToInt(numberOfClients/3) + 2) 
         {
             passTheLevelPanel.gameObject.transform.GetChild(2).gameObject.SetActive(true);
             PlayerPrefs.SetFloat(nameScene,2);
         }
-        else
+        else if(numberOfPoints == numberOfClients + 8)
         {
             passTheLevelPanel.gameObject.transform.GetChild(3).gameObject.SetActive(true);
             PlayerPrefs.SetFloat(nameScene,3);
@@ -220,11 +231,12 @@ public class Controller : MonoBehaviour
                 taskWindow.SetActive(false);
                 currentPoints.text = "0";
                 AddValuesToPedometer(quest.fartReward);
-                FindObjectOfType<TimerLevel>().StopTimer();
+                FindObjectOfType<TimerLevel>().StopTimer(true);
                 quest.Complete();
             } 
         }
     }
+
     public void TaskByManager()
     {
         if (quest.isActive)
@@ -236,19 +248,18 @@ public class Controller : MonoBehaviour
                 taskWindow.SetActive(false);
                 currentPoints.text = "0";
                 AddValuesToPedometer(quest.fartReward);
-                FindObjectOfType<TimerLevel>().StopTimer();
+                FindObjectOfType<TimerLevel>().StopTimer(true);
                 quest.Complete();
             } 
         }
     }
-
     #endregion
-    
     
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
+
     public void Fart()
     {
         if(_SliderPedometer.value != 0)
@@ -273,9 +284,9 @@ public class Controller : MonoBehaviour
             {
                 LoseForCustomer();
             }
-            if (_SliderPedometer.value >= 75)
+            if (_SliderPedometer.value >= 85)
             {
-                StartCoroutine("EndTheGame");
+                StartCoroutine(EndTheGame());
                 player.GetComponent<StarterAssetsInputs>().fart = false;
                 DeleteValuesToPedometer(_SliderPedometer.value);
                 return;
@@ -289,6 +300,7 @@ public class Controller : MonoBehaviour
             return;
         }
     }
+
     public void RandomFood()
     {
         int randomFood = Random.Range(0, food.Length);
@@ -296,7 +308,15 @@ public class Controller : MonoBehaviour
         GameObject foodInstance = Instantiate(food[randomFood]);
         foodInstance.transform.position = posFood[randomPosFood].transform.position;
     }
-    
 
-    
+    public void addPoints(int numberOfPointsToAdd)
+    {
+        numberOfPoints += numberOfPointsToAdd;
+    }
+
+    public void addClientOut()
+    {
+        numberOfClientsOut += 1;
+        numberOfPoints += 2;
+    }
 }

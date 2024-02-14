@@ -20,7 +20,7 @@ void OnParticleCollision(GameObject other)
     if (other.tag == "Customer" )
     {
         //other.GetComponent<Customer>()._isFarted = true;
-        playerController.numberOfClientsOut +=1;
+        playerController.addClientOut();
         partSystem.GetCollisionEvents(other, collisionEvents);
         ParticleSystem particlesBadSmell = other.transform.GetChild(0).GetComponent<ParticleSystem>();
         particlesBadSmell.Play();

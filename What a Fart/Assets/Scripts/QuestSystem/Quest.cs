@@ -6,7 +6,7 @@ namespace QuestSystem
     public class Quest
     {
         public bool isActive;
-        
+    
         public string title;
         public string description,trackText;
         public int trackPoints;
@@ -18,7 +18,7 @@ namespace QuestSystem
         {
             isActive = false;
             goal.currentAmount = 0;
-            Debug.Log("cumplio");
+            Debug.Log("Cumplió la misión");
         }
     }
 }
