@@ -32,22 +32,22 @@ public class TimerLevel : MonoBehaviour
         {
             _currentTimeLevel -= Time.deltaTime;
             UpdateTimerDisplayLevel();
-            if (_currentTimeLevel <= 0 & _isTimeStoppedForWinning == false)
+            if (_currentTimeLevel <= 0 /*& _isTimeStoppedForWinning == false*/)
             {
                 _currentTimeLevel = 0f;
                 _isTimerRunningLevel = false;
-                StopTimer(false);
+                //StopTimer(false);
             }
             if (_isTimerRunning)
             {
                 _currentTime -= Time.deltaTime; // Decrease current time by deltaTime
                 UpdateTimerDisplay();
 
-                if (_currentTime <= 0f & _isTimeStoppedForWinning == false)
+                if (_currentTime <= 0f /*& _isTimeStoppedForWinning == false*/)
                 {
                     _currentTime = 0f;
                     _isTimerRunning = false;
-                    StopTimer(false);
+                    //StopTimer(false);
                     // Perform any actions you want when the timer reaches 0
                     Debug.Log("Timer has reached 0.");
                 }
