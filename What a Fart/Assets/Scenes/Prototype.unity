@@ -31352,6 +31352,7 @@ GameObject:
   - component: {fileID: 565234479}
   - component: {fileID: 565234480}
   - component: {fileID: 565234478}
+  - component: {fileID: 565234482}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -31366,7 +31367,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565234477}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32723b39f92ddaa4fb81dd01ea876785, type: 3}
   m_Name: 
@@ -31542,6 +31543,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &565234482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 565234477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c0e8884acd71b048bd9b0e88853bd45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerControlSo: {fileID: 11400000, guid: d6789bc003c689945bfc7584ac021ae9, type: 2}
+  timerVisual: {fileID: 611135228}
 --- !u!1 &569867432
 GameObject:
   m_ObjectHideFlags: 0

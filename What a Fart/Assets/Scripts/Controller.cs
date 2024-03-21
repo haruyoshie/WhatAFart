@@ -231,7 +231,6 @@ public class Controller : MonoBehaviour
                 taskWindow.SetActive(false);
                 currentPoints.text = "0";
                 AddValuesToPedometer(quest.fartReward);
-                FindObjectOfType<TimerLevel>().StopTimer(true);
                 quest.Complete();
             } 
         }
@@ -248,7 +247,6 @@ public class Controller : MonoBehaviour
                 taskWindow.SetActive(false);
                 currentPoints.text = "0";
                 AddValuesToPedometer(quest.fartReward);
-                FindObjectOfType<TimerLevel>().StopTimer(true);
                 quest.Complete();
             } 
         }

@@ -160,7 +160,7 @@ namespace StarterAssets
             // JumpAndGravity();
             GroundedCheck();
             Move();
-            Fart();
+            //Fart();
         }
 
         private void LateUpdate()
